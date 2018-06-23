@@ -76,8 +76,6 @@ app.get('/entries', function(req, res, next) {
     });
 });
 
-//app.get('/', getTotal, getEmotions, renderData);
-
 
 app.get('/', function(req, res, next) {
     res.render('index');
