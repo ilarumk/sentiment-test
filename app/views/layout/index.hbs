@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sentiment Analysis</title>
+    {{#> head-block}}
+    {{/head-block}}
+</head>
+<body>
+
+ {{#> nav-block}}
+ {{/nav-block}}
+
+<section>
+    <div class="container">
+      <h2>Sentiment Analysis</h2>
+
+      <h3>Total Data</h3>
+      <div id="App1" ng-app="myApp" ng-controller="myCtrl"> 
+      Total number of entries with Sentiment data: <span ng-bind="total"></span>
+      </div>
+
+      <hr />
+
+      <h3>Sentiment Summary</h3>
+      <div id="App2" ng-app="sentimentsModule" ng-controller="sentiments"> 
+        <table class="table">
+          <tr>
+            <th scope="col">Sentiment</th>
+            <th scope="col">Count</th>
+          </tr>
+          <tr ng-repeat="item in sentiments">
+            <td ng-bind="item.emotion"></td>
+            <td ng-bind="item.count"></td>
+          </tr>
+        </ul>          
+        </table>
+      </div>
+
+      <h3>Sample Data</h3>
+      <div id="App3" ng-app="dataModule" ng-controller="entries"> 
+        <table class="table">
+          <tr>
+            <th scope="col">Text</th>
+            <th scope="col">Score</th>
+            <th scope="col">Magnitude</th>
+            <th scope="col">Sentiment</th>
+          </tr>
+          <tr ng-repeat="item in entries">
+              <td ng-bind="item.text"></td>
+              <td ng-bind="item.score"></td>
+              <td ng-bind="item.magnitude"></td>
+              <td ng-bind="item.emotion"></td>
+          </tr>
+        </ul>          
+        </table>
+      </div>
+
+      <h3>Visualisation from Data Studio</h3>
+      <iframe width="600" height="450" src="https://datastudio.google.com/embed/reporting/1LMsat1OCf-rq44ECw4677eT3wYuZtSeN/page/MusT" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+      <h3>Structure</h3>
+      <iframe frameborder="0" style="width:100%;height:616px;" src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=sentimentAnalysis#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1JERGJH3r3k7wEFfG5yrMjrZWEaNf1RZT%26export%3Ddownload"></iframe>
+
+      <h3>Cost Estimate</h3>
+      <a href="https://cloud.google.com/products/calculator/#id=119a0f51-9eb3-4308-9a5f-45336d7e9a5c">https://cloud.google.com/products/calculator/#id=119a0f51-9eb3-4308-9a5f-45336d7e9a5c</a>
+        <!--end of row-->
+    </div>
+    <!--end of container-->
+</section>
+<!--end of section-->
+
+
+<script>
+      var app = angular.module('myApp', []);
+      app.controller('myCtrl', function($scope, $http) {
+          $http.get("/total")
+          .then(function(response) {
+              $scope.total = response.data.total;
+              console.log(response.data);
+          });
+      });
+
+      var sapp = angular.module('sentimentsModule', []);
+      sapp.controller('sentiments', function($scope, $http) {
+          $http.get("/sentiments")
+          .then(function(response) {
+              $scope.sentiments = response.data;
+              console.log(response.data);
+          });
+      });
+      angular.bootstrap(document.getElementById("App2"), ['sentimentsModule']);
+
+
+      var sapp = angular.module('dataModule', []);
+      sapp.controller('entries', function($scope, $http) {
+          $http.get("/entries")
+          .then(function(response) {
+              $scope.entries = response.data;
+          });
+      });
+      angular.bootstrap(document.getElementById("App3"), ['dataModule']);
+
+      </script>
+
+  {{#> footer-block}}
+  {{/footer-block}}
+
+</body>
+</html>
