@@ -11,12 +11,6 @@ const table = dataset.table('sentiments');
 
 const app = express();
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'pug');
-
-//app.use('/static', express.static(path.join(__dirname, 'public')))
-// Use `.hbs` for extensions and find partials in `views/partials`.
 app.engine('hbs', hbs.express4({
   partialsDir: __dirname + '/views/partials'
 }));
@@ -25,20 +19,6 @@ app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views/layout');
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get('/', function (req, res) {
-//   res.render('index', { title: 'Hey', message: 'Hello there!' })
-// })
-
-// //-
-// // If you anticipate many results, you can end a stream early to prevent
-// // unnecessary processing and API requests.
-// //-
-// bigquery.createQueryStream(query)
-//   .on('data', function(row) {
-//     this.end();
-//   });
-
-//var pagedata;
 
 app.get('/total', function(req, res, next) {
     app.use(bodyParser.json());
@@ -100,22 +80,7 @@ app.get('/entries', function(req, res, next) {
 
 
 app.get('/', function(req, res, next) {
-
-    // pagedata = {
-    //   total: getTotal(),
-    //   emotions: getEmotions()
-    // }
-
-   // console.log(pagedata);
-
     res.render('index');
   });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
-
-function renderData(req, res) {
-    res.render('index', {
-        total: req.total,
-        emotions: req.emotions
-    });
-}
